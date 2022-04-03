@@ -1,0 +1,72 @@
+.formField {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  line-height: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  color: var(--input-color);
+  border: 1px solid var(--input-border);
+  background: var(--input-background);
+  transition: border 0.3s ease;
+}
+.formField::placeholder {
+  color: var(--input-placeholder);
+}
+.formField:focus {
+  outline: none;
+  border-color: var(--input-border-focus);
+}
+.formGroup {
+  max-width: 360px;
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+.formGroup > span,
+.formGroup .formField {
+  white-space: nowrap;
+  display: block;
+}
+.formGroup > span:not(:first-child):not(:last-child),
+.formGroup .formField:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+.formGroup > span:first-child,
+.formGroup .formField:first-child {
+  border-radius: 6px 0 0 6px;
+}
+.formGroup > span:last-child,
+.formGroup .formField:last-child {
+  border-radius: 0 6px 6px 0;
+}
+.formGroup > span:not(:first-child),
+.formGroup .formField:not(:first-child) {
+  margin-left: -1px;
+}
+.formGroup .formField {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  width: 1%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.formGroup > span {
+  text-align: center;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 25px;
+  color: var(--group-color);
+  background: var(--group-background);
+  border: 1px solid var(--group-border);
+  transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+.formGroup:focus-within > span {
+  color: var(--group-color-focus);
+  background: var(--group-background-focus);
+  border-color: var(--group-border-focus);
+}
