@@ -7,8 +7,6 @@ module.exports = {
     name: "IFL",
     icon: "./public/icons/app.ico",
     asar: true,
-    dir: "./src",
-    out: "./build",
   },
   publishers: [
     {
@@ -31,8 +29,8 @@ module.exports = {
       certificatePassword: process.env.CERTIFICATE_PASSWORD,
       config: {
         name: "IFL",
-        exe: "IFL.exe",
-        setupExe: "IFL.exe",
+        exe: "IFL",
+        setupExe: "IFL",
       },
     },
   ],
