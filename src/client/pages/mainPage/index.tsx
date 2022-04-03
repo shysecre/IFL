@@ -1,13 +1,14 @@
 import Button from "client/components/Button";
 import { Input } from "client/components/Input";
-import { Track } from "client/components/Track";
 import { useActions } from "client/hooks/useActions";
 import { useTypedSelector } from "client/hooks/useTypedSelector";
 import React, { useEffect, useState } from "react";
 import MainPageProps from "./index.props";
 
 const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
-  const { playlistId, tracks } = useTypedSelector(state => state.playlist);
+  const { playlistId, tracks, isCaching, error } = useTypedSelector(
+    state => state.playlist
+  );
   const { fetchTracks, editPlaylistId, logoutUser } = useActions();
   const [value, setValue] = useState("");
 
@@ -41,18 +42,65 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
       />
 
       <Button onClick={onEditPlaylistId} text="Change playlist id" />
-      <h1>Tracks: {tracks.length}</h1>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-        }}
-      >
-        {tracks.map((item, idx) => (
-          <Track key={idx} track={item} />
-        ))}
+      <div>
+        {isCaching ? (
+          <h1 style={{ color: "#RED", marginLeft: "30px" }}>
+            Wait for cache...
+          </h1>
+        ) : (
+          <>
+            <h1 style={{ color: "#fff", marginLeft: "30px" }}>
+              Total tracks: {tracks.length}
+            </h1>
+            <h1 style={{ color: "#fff", marginLeft: "30px" }}>
+              Last 10 added tracks:
+            </h1>
+            <div style={{}}>
+              {tracks.length ? (
+                tracks
+                  .slice(-10)
+                  .reverse()
+                  .map((track, idx) => {
+                    return (
+                      <div
+                        style={{
+                          verticalAlign: "top",
+                          marginLeft: "30px",
+                          width: "100%",
+                          float: "left",
+                        }}
+                        key={idx}
+                      >
+                        <div>
+                          <img
+                            style={{ float: "left" }}
+                            src={track.img}
+                            width={52}
+                            height={52}
+                          />
+                        </div>
+                        <div>
+                          <h4
+                            style={{
+                              color: "#fff",
+                              float: "left",
+                              marginLeft: "15px",
+                            }}
+                          >
+                            [{++idx}] {track.artists} - {track.name}
+                          </h4>
+                        </div>
+                      </div>
+                    );
+                  })
+              ) : (
+                <h3 style={{ color: "RED", marginLeft: "30px" }}>
+                  Fetch tracks first
+                </h3>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </>
   );

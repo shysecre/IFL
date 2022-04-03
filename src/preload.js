@@ -12,16 +12,20 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.on(channel, (event, ...args) => func(...args));
   },
   dirname: __dirname,
-  spotify: {
+  utils: {
     openInBrowser(url) {
       return shell.openExternal(url);
     },
+  },
+  server: {
     createServer() {
       return server.createServer();
     },
     stopServer() {
       return server.stopServer();
     },
+  },
+  spotify: {
     createAuthUrl(scopes, state) {
       return SpotifyWeb.createAuthorizeURL(scopes, state);
     },
@@ -31,6 +35,9 @@ contextBridge.exposeInMainWorld("api", {
     setAccessToken(token) {
       return SpotifyWeb.setAccessToken(token);
     },
+    getPlayingTrack() {
+      return SpotifyWeb.getMyCurrentPlayingTrack();
+    },
     getPlaylistTracks(playlistId, options) {
       return SpotifyWeb.getPlaylistTracks(playlistId, options);
     },
@@ -39,6 +46,9 @@ contextBridge.exposeInMainWorld("api", {
     },
     refreshToken() {
       return SpotifyWeb.refreshAccessToken();
+    },
+    addTrackToPlaylist(playlistId, tracks) {
+      return SpotifyWeb.addTracksToPlaylist(playlistId, tracks);
     },
   },
 });

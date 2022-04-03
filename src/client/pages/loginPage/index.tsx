@@ -22,8 +22,8 @@ const LoginPage: React.FC<LoginPageProps> = () => {
       "state"
     );
 
-    window.api.spotify.createServer();
-    window.api.spotify.openInBrowser(url);
+    window.api.server.createServer();
+    window.api.utils.openInBrowser(url);
 
     loginUser({ req: true });
   };

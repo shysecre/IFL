@@ -1,13 +1,20 @@
 import React from "react";
 import styles from "./index.module.css";
 import classNames from "classnames";
+import { useTypedSelector } from "client/hooks/useTypedSelector";
+import { useActions } from "client/hooks/useActions";
 
 export const Navbar = ({}): JSX.Element => {
+  const { accessToken } = useTypedSelector(state => state.currentUser);
+  const { logoutUser } = useActions();
   const onHide = () => {
     window.api.send("Rhide-window", "");
   };
   const onHideToTray = () => {
     window.api.send("Rhide-window-to-tray", "");
+  };
+  const onLogout = () => {
+    logoutUser();
   };
 
   return (
@@ -40,6 +47,25 @@ export const Navbar = ({}): JSX.Element => {
             </linearGradient>
           </defs>
         </svg>
+        {accessToken ? (
+          <svg
+            onClick={onLogout}
+            className={classNames(styles.logout, styles.noDrag)}
+            viewBox="0 0 512 512"
+          >
+            <path
+              fill="url(#Gradient)"
+              d="M96 480h64C177.7 480 192 465.7 192 448S177.7 416 160 416H96c-17.67 0-32-14.33-32-32V128c0-17.67 14.33-32 32-32h64C177.7 96 192 81.67 192 64S177.7 32 160 32H96C42.98 32 0 74.98 0 128v256C0 437 42.98 480 96 480zM504.8 238.5l-144.1-136c-6.975-6.578-17.2-8.375-26-4.594c-8.803 3.797-14.51 12.47-14.51 22.05l-.0918 72l-128-.001c-17.69 0-32.02 14.33-32.02 32v64c0 17.67 14.34 32 32.02 32l128 .001l.0918 71.1c0 9.578 5.707 18.25 14.51 22.05c8.803 3.781 19.03 1.984 26-4.594l144.1-136C514.4 264.4 514.4 247.6 504.8 238.5z"
+            />
+            <defs>
+              <linearGradient id="Gradient" x2="1" y2="1">
+                <stop offset="33%" stopColor="#924949" />
+                <stop offset="66%" stopColor="#e03c3c" />
+                <stop offset="99%" stopColor="#ff0909" />
+              </linearGradient>
+            </defs>
+          </svg>
+        ) : null}
       </div>
     </>
   );

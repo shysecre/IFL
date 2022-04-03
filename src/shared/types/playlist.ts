@@ -4,12 +4,16 @@ export interface FetchTracksAction {
 
 export interface FetchTracksSuccessAction {
   type: PlaylistActions.FETCH_TRACKS_SUCCESS;
-  payload: Track[];
 }
 
 export interface FetchTracksErrorAction {
   type: PlaylistActions.FETCH_TRACKS_ERROR;
   payload: string;
+}
+
+export interface FetchTracksAddingAction {
+  type: PlaylistActions.FETCH_TRACKS_ADDING;
+  payload: Track[];
 }
 
 export interface AddTrackAction {
@@ -46,11 +50,13 @@ export interface PlaylistState {
   tracks: Track[];
   isCaching: boolean;
   isAddingTrack: boolean;
+  isCacheDone: boolean;
   error?: string;
 }
 
 export type FetchActions =
   | FetchTracksAction
+  | FetchTracksAddingAction
   | FetchTracksSuccessAction
   | FetchTracksErrorAction;
 
@@ -63,6 +69,7 @@ export type PlaylistAction =
 
 export enum PlaylistActions {
   FETCH_TRACKS = "FETCH_TRACKS",
+  FETCH_TRACKS_ADDING = "FETCH_TRACKS_ADDING",
   FETCH_TRACKS_SUCCESS = "FETCH_TRACKS_SUCCESS",
   FETCH_TRACKS_ERROR = "FETCH_TRACKS_ERROR",
   ADD_TRACK = "ADD_TRACK",

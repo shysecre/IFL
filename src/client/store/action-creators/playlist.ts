@@ -14,20 +14,19 @@ const fetchAllTracks = async (
   dispatch: Dispatch<PlaylistAction>,
   playlistId: string
 ) => {
-  if (!res.next) return;
+  if (!res.next) {
+    dispatch({ type: PlaylistActions.FETCH_TRACKS_SUCCESS });
 
-  dispatch({
-    type: PlaylistActions.FETCH_TRACKS,
-  });
+    return;
+  }
 
   const offset = +new URL(res.next).searchParams.get("offset");
-
   const { body } = await window.api.spotify.getPlaylistTracks(playlistId, {
     offset,
   });
 
   dispatch({
-    type: PlaylistActions.FETCH_TRACKS_SUCCESS,
+    type: PlaylistActions.FETCH_TRACKS_ADDING,
     payload: body.items.map(item => {
       const { track } = item;
 
@@ -45,16 +44,19 @@ const fetchAllTracks = async (
 export const fetchTracks = () => {
   return async (dispatch: Dispatch<PlaylistAction>, getState: GetState) => {
     try {
-      dispatch({ type: PlaylistActions.FETCH_TRACKS });
-
       const state = getState();
+
+      if (state.playlist.isCacheDone) return;
+      if (!state.playlist.playlistId) return;
+
+      dispatch({ type: PlaylistActions.FETCH_TRACKS });
 
       const { body } = await window.api.spotify.getPlaylistTracks(
         state.playlist.playlistId
       );
 
       dispatch({
-        type: PlaylistActions.FETCH_TRACKS_SUCCESS,
+        type: PlaylistActions.FETCH_TRACKS_ADDING,
         payload: body.items.map(item => {
           const { track } = item;
 
@@ -100,14 +102,43 @@ export const clearPlaylistTracks = () => {
 export const addTrack = () => {
   return async (dispatch: Dispatch<PlaylistAction>, getState: GetState) => {
     try {
+      const state = getState();
+
+      if (!state.playlist.playlistId) {
+        return dispatch({
+          type: PlaylistActions.ADD_TRACK_ERROR,
+          payload: "Specify playlistId first to add new track.",
+        });
+      }
+
       dispatch({ type: PlaylistActions.ADD_TRACK });
+
+      const { body } = await window.api.spotify.getPlayingTrack();
+
+      if (body.item.type != "track") {
+        return dispatch({
+          type: PlaylistActions.ADD_TRACK_ERROR,
+          payload: "You must play any track to add something new.",
+        });
+      }
+
+      if (state.playlist.tracks.find(track => track.name === body.item.name)) {
+        return dispatch({
+          type: PlaylistActions.ADD_TRACK_ERROR,
+          payload: "This track already in playlist",
+        });
+      }
+
+      await window.api.spotify.addTrackToPlaylist(state.playlist.playlistId, [
+        body.item.uri,
+      ]);
 
       dispatch({
         type: PlaylistActions.ADD_TRACK_SUCCESS,
         payload: {
-          artists: "hooi",
-          img: "poshel",
-          name: "nahooi",
+          artists: body.item.artists.map(artist => `${artist.name}`).join(", "),
+          img: body.item.album.images[0].url,
+          name: body.item.name,
         },
       });
     } catch (err) {

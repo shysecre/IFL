@@ -36,6 +36,10 @@
   );
 }
 
+.logout {
+  height: 17px;
+}
+
 .navCentered {
   position: absolute;
   left: 50%;
