@@ -1,13 +1,20 @@
-import { useActions } from "client/hooks/useActions";
 import { Dispatch } from "redux";
 import { GetState } from "client/store";
 import { PlaylistAction, PlaylistActions } from "shared/types/playlist";
-import { SpotifyWeb } from "utils/spotify";
+import { refreshToken } from "client/utils/funcs";
 
 interface res {
   items: any[];
   next?: string;
 }
+
+export const clearPlaylistError = () => {
+  return async (dispatch: Dispatch<PlaylistAction>) => {
+    dispatch({
+      type: PlaylistActions.CLEAR_ERROR,
+    });
+  };
+};
 
 const fetchAllTracks = async (
   res: res,
@@ -43,9 +50,11 @@ const fetchAllTracks = async (
 
 export const fetchTracks = () => {
   return async (dispatch: Dispatch<PlaylistAction>, getState: GetState) => {
-    try {
-      const state = getState();
+    const state = getState();
 
+    await refreshToken(state);
+
+    try {
       if (state.playlist.isCacheDone) return;
       if (!state.playlist.playlistId) return;
 
@@ -74,6 +83,12 @@ export const fetchTracks = () => {
         type: PlaylistActions.FETCH_TRACKS_ERROR,
         payload: err.message,
       });
+
+      setTimeout(() => {
+        dispatch({
+          type: PlaylistActions.CLEAR_ERROR,
+        });
+      }, 15000);
     }
   };
 };
@@ -86,6 +101,8 @@ export const editPlaylistId = (playlistId: string) => {
       type: PlaylistActions.EDIT_PLAYLIST_ID,
       payload: playlistId,
     });
+
+    localStorage.setItem("playlistId", playlistId);
 
     fetchTracks()(dispatch, getState);
   };
@@ -101,14 +118,24 @@ export const clearPlaylistTracks = () => {
 
 export const addTrack = () => {
   return async (dispatch: Dispatch<PlaylistAction>, getState: GetState) => {
-    try {
-      const state = getState();
+    const state = getState();
 
+    await refreshToken(state);
+
+    try {
       if (!state.playlist.playlistId) {
-        return dispatch({
+        dispatch({
           type: PlaylistActions.ADD_TRACK_ERROR,
           payload: "Specify playlistId first to add new track.",
         });
+
+        setTimeout(() => {
+          dispatch({
+            type: PlaylistActions.CLEAR_ERROR,
+          });
+        }, 15000);
+
+        return;
       }
 
       dispatch({ type: PlaylistActions.ADD_TRACK });
@@ -116,17 +143,35 @@ export const addTrack = () => {
       const { body } = await window.api.spotify.getPlayingTrack();
 
       if (body.item.type != "track") {
-        return dispatch({
+        dispatch({
           type: PlaylistActions.ADD_TRACK_ERROR,
           payload: "You must play any track to add something new.",
         });
+
+        setTimeout(() => {
+          dispatch({
+            type: PlaylistActions.CLEAR_ERROR,
+          });
+        }, 15000);
+
+        return;
       }
 
       if (state.playlist.tracks.find(track => track.name === body.item.name)) {
-        return dispatch({
+        dispatch({
           type: PlaylistActions.ADD_TRACK_ERROR,
-          payload: "This track already in playlist",
+          payload: `Track "${body.item.artists
+            .map(artist => artist.name)
+            .join(", ")} - ${body.item.name}" already in playlist.`,
         });
+
+        setTimeout(() => {
+          dispatch({
+            type: PlaylistActions.CLEAR_ERROR,
+          });
+        }, 15000);
+
+        return;
       }
 
       await window.api.spotify.addTrackToPlaylist(state.playlist.playlistId, [
@@ -146,6 +191,12 @@ export const addTrack = () => {
         type: PlaylistActions.ADD_TRACK_ERROR,
         payload: err.message,
       });
+
+      setTimeout(() => {
+        dispatch({
+          type: PlaylistActions.CLEAR_ERROR,
+        });
+      }, 15000);
     }
   };
 };

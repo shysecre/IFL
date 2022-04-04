@@ -5,7 +5,7 @@ import {
 } from "shared/types/playlist";
 
 const initialState: PlaylistState = {
-  playlistId: "",
+  playlistId: localStorage.getItem("playlistId") ?? "",
   tracks: [],
   isCaching: false,
   isAddingTrack: false,
@@ -43,7 +43,10 @@ export const playlistReducer = (
       return { ...state, playlistId: action.payload };
 
     case PlaylistActions.CLEAR_TRACKS:
-      return { ...state, tracks: [] };
+      return { ...state, tracks: [], isCacheDone: false };
+
+    case PlaylistActions.CLEAR_ERROR:
+      return { ...state, error: "" };
 
     default:
       return state;

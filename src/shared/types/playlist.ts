@@ -39,6 +39,10 @@ export interface ClearTracksAction {
   type: PlaylistActions.CLEAR_TRACKS;
 }
 
+export interface ClearErrorAction {
+  type: PlaylistActions.CLEAR_ERROR;
+}
+
 export interface Track {
   artists: string;
   img: string;
@@ -65,7 +69,8 @@ export type PlaylistAction =
   | FetchActions
   | AddActions
   | EditPlaylistIdAction
-  | ClearTracksAction;
+  | ClearTracksAction
+  | ClearErrorAction;
 
 export enum PlaylistActions {
   FETCH_TRACKS = "FETCH_TRACKS",
@@ -77,4 +82,5 @@ export enum PlaylistActions {
   ADD_TRACK_ERROR = "ADD_TRACK_ERROR",
   EDIT_PLAYLIST_ID = "EDIT_PLAYLIST_ID",
   CLEAR_TRACKS = "CLEAR_TRACKS",
+  CLEAR_ERROR = "CLEAR_ERROR",
 }

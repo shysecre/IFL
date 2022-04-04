@@ -44,17 +44,6 @@ const App: React.FC = (): JSX.Element => {
         </Routes>
       ) : (
         <Routes>
-          {location.search.length ? (
-            <Route
-              path="/login"
-              element={
-                <LoginPage
-                  code={location.search.split("=")[1].replace("&state", "")}
-                />
-              }
-            />
-          ) : null}
-
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" caseSensitive element={<Navigate to={"/login"} />} />
         </Routes>

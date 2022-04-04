@@ -26,6 +26,10 @@ export interface LoginUserErrorAction {
   payload: string;
 }
 
+export interface ClearErrorAction {
+  type: CurrentUserActions.CLEAR_ERROR;
+}
+
 export interface LogoutUserAction {
   type: CurrentUserActions.LOGOUT_USER;
 }
@@ -34,11 +38,13 @@ export type CurrentUserAction =
   | LoginUserAction
   | LoginUserSuccessAction
   | LoginUserErrorAction
-  | LogoutUserAction;
+  | LogoutUserAction
+  | ClearErrorAction;
 
 export enum CurrentUserActions {
   LOGIN_USER = "LOGIN_USER",
   LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS",
   LOGIN_USER_ERROR = "LOGIN_USER_ERROR",
   LOGOUT_USER = "LOGOUT_USER",
+  CLEAR_ERROR = "CLEAR_ERROR",
 }

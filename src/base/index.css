@@ -1,5 +1,5 @@
 body {
-  background: url(https://images.pexels.com/photos/2762179/pexels-photo-2762179.jpeg)
+  background: url(https://images.pexels.com/photos/1254736/pexels-photo-1254736.jpeg)
     no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -13,21 +13,4 @@ body {
 
 ::-webkit-scrollbar {
   display: none;
-}
-
-:root {
-  --input-color: #99a3ba;
-  --input-border: #cdd9ed;
-  --input-background: #fff;
-  --input-placeholder: #cbd1dc;
-
-  --input-border-focus: #275efe;
-
-  --group-color: var(--input-color);
-  --group-border: var(--input-border);
-  --group-background: #eef4ff;
-
-  --group-color-focus: #fff;
-  --group-border-focus: var(--input-border-focus);
-  --group-background-focus: #678efe;
 }

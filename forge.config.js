@@ -29,8 +29,8 @@ module.exports = {
       certificatePassword: process.env.CERTIFICATE_PASSWORD,
       config: {
         name: "IFL",
-        exe: "IFL",
-        setupExe: "IFL",
+        exe: "IFL.exe",
+        setupExe: "IFL.exe",
       },
     },
   ],

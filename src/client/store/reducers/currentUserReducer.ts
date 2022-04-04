@@ -19,10 +19,13 @@ export const currentUserReducer = (
   switch (action.type) {
     case CurrentUserActions.LOGIN_USER:
       return { ...state, inLoginProccess: true };
+
     case CurrentUserActions.LOGIN_USER_SUCCESS:
       return { ...state, ...action.payload, inLoginProccess: false };
+
     case CurrentUserActions.LOGIN_USER_ERROR:
       return { ...state, error: action.payload, inLoginProccess: false };
+
     case CurrentUserActions.LOGOUT_USER:
       return {
         ...state,
@@ -30,6 +33,10 @@ export const currentUserReducer = (
         refreshToken: null,
         accessToken: null,
       };
+
+    case CurrentUserActions.CLEAR_ERROR:
+      return { ...state, error: "" };
+
     default:
       return state;
   }

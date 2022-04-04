@@ -23,6 +23,14 @@ export const logoutUser = () => {
   };
 };
 
+export const clearUserError = () => {
+  return async (dispatch: Dispatch<CurrentUserAction>) => {
+    dispatch({
+      type: CurrentUserActions.CLEAR_ERROR,
+    });
+  };
+};
+
 const getCodeRec = async (
   dispatch: Dispatch<CurrentUserAction>,
   code?: string
@@ -53,9 +61,11 @@ const getCodeRec = async (
     });
   }
 
-  const res = await axios.get("http://localhost:8080/getCode");
+  setTimeout(async () => {
+    const res = await axios.get("http://localhost:8080/getCode");
 
-  getCodeRec(dispatch, res.data.code);
+    getCodeRec(dispatch, res.data.code);
+  }, 500);
 };
 
 export const loginUser = ({ code, accessToken, req }: options) => {
@@ -110,6 +120,12 @@ export const loginUser = ({ code, accessToken, req }: options) => {
         type: CurrentUserActions.LOGIN_USER_ERROR,
         payload: err.message,
       });
+
+      setTimeout(() => {
+        dispatch({
+          type: CurrentUserActions.CLEAR_ERROR,
+        });
+      }, 15000);
     }
   };
 };
