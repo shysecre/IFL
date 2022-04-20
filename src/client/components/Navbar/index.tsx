@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./index.module.css";
 import classNames from "classnames";
 import { useTypedSelector } from "client/hooks/useTypedSelector";
@@ -9,7 +9,13 @@ export const Navbar = ({}): JSX.Element => {
     currentUser: { accessToken },
     appState: { isUpdateLive },
   } = useTypedSelector(state => state);
-  const { setUpdateOffline, logoutUser } = useActions();
+  const { setUpdateLive, setUpdateOffline, logoutUser } = useActions();
+
+  useEffect(() => {
+    window.api.receive("Rupdate-available", () => {
+      setUpdateLive();
+    });
+  }, []);
 
   const onHide = () => {
     window.api.send("Rhide-window", "");
