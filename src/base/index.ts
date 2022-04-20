@@ -28,7 +28,9 @@ app
     );
 
     if (!electronIsDev) {
-      const feed = `${process.env.SERVER_URL}/update/${process.platform}/${app.getVersion()}`;
+      const feed = `${process.env.SERVER_URL}/update/${
+        process.platform
+      }/${app.getVersion()}`;
 
       autoUpdater.setFeedURL({ url: feed });
       autoUpdater.checkForUpdates();
