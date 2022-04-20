@@ -44,11 +44,6 @@ app
       });
     }
 
-    autoUpdater.on("update-available", () => {
-      app.relaunch();
-      app.exit(0);
-    });
-
     globalShortcut.register("Alt+0", () => {
       win.webContents.send("add-track");
     });
