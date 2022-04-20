@@ -28,7 +28,7 @@ app
     );
 
     if (!electronIsDev) {
-      const server = `https://hazel-355zuvseg-secree.vercel.app`;
+      const server = `https://hazel-re2w85cis-secree.vercel.app/`;
       const feed = `${server}/update/${process.platform}/${app.getVersion()}`;
 
       autoUpdater.setFeedURL({ url: feed });
