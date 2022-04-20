@@ -28,8 +28,7 @@ app
     );
 
     if (!electronIsDev) {
-      const server = `https://hazel-re2w85cis-secree.vercel.app/`;
-      const feed = `${server}/update/${process.platform}/${app.getVersion()}`;
+      const feed = `${process.env.SERVER_URL}/update/${process.platform}/${app.getVersion()}`;
 
       autoUpdater.setFeedURL({ url: feed });
       autoUpdater.checkForUpdates();
