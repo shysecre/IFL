@@ -39,24 +39,15 @@ app
         autoUpdater.checkForUpdates();
       }, 10 * 60 * 1000);
 
-      autoUpdater.on(
-        "update-downloaded",
-        async (event, releaseNotes, releaseName) => {
-          const dialogOpts = {
-            type: "info",
-            buttons: ["Restart", "Later"],
-            title: "Application Update",
-            message: process.platform === "win32" ? releaseNotes : releaseName,
-            detail:
-              "A new version has been downloaded. Restart the application to apply the updates.",
-          };
-
-          const result = await dialog.showMessageBox(win, dialogOpts);
-
-          if (result.response === 0) autoUpdater.quitAndInstall();
-        }
-      );
+      autoUpdater.on("update-downloaded", () => {
+        win.webContents.send("Rupdate-available", true);
+      });
     }
+
+    autoUpdater.on("update-available", () => {
+      app.relaunch();
+      app.exit(0);
+    });
 
     globalShortcut.register("Alt+0", () => {
       win.webContents.send("add-track");
@@ -74,6 +65,10 @@ app
           title: data.title,
           body: data.body,
         }).show();
+      })
+      .on("Rneed-to-update", () => {
+        app.relaunch();
+        app.exit(0);
       });
   })
   .on("window-all-closed", () => {

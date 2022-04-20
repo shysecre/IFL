@@ -40,6 +40,10 @@
   height: 17px;
 }
 
+.update {
+  height: 20px;
+}
+
 .navCentered {
   position: absolute;
   left: 50%;
