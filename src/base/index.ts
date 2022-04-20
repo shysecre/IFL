@@ -62,7 +62,6 @@ app
         }).show();
       })
       .on("Rneed-to-update", () => {
-        app.relaunch();
         app.exit(0);
       });
   })
