@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { GetState } from "client/store";
 import { PlaylistAction, PlaylistActions } from "shared/types/playlist";
 import { refreshToken } from "client/utils/funcs";
+import { CurrentUserAction } from "shared/types/currentUser";
 
 interface res {
   items: any[];
@@ -52,7 +53,10 @@ export const fetchTracks = () => {
   return async (dispatch: Dispatch<PlaylistAction>, getState: GetState) => {
     const state = getState();
 
-    await refreshToken(state);
+    await refreshToken(
+      state,
+      dispatch as unknown as Dispatch<CurrentUserAction>
+    );
 
     try {
       if (state.playlist.isCacheDone) return;
@@ -88,7 +92,7 @@ export const fetchTracks = () => {
         dispatch({
           type: PlaylistActions.CLEAR_ERROR,
         });
-      }, 15000);
+      }, 7500);
     }
   };
 };
@@ -120,7 +124,10 @@ export const addTrack = () => {
   return async (dispatch: Dispatch<PlaylistAction>, getState: GetState) => {
     const state = getState();
 
-    await refreshToken(state);
+    await refreshToken(
+      state,
+      dispatch as unknown as Dispatch<CurrentUserAction>
+    );
 
     try {
       if (!state.playlist.playlistId) {
@@ -133,7 +140,7 @@ export const addTrack = () => {
           dispatch({
             type: PlaylistActions.CLEAR_ERROR,
           });
-        }, 15000);
+        }, 7500);
 
         return;
       }
@@ -152,7 +159,7 @@ export const addTrack = () => {
           dispatch({
             type: PlaylistActions.CLEAR_ERROR,
           });
-        }, 15000);
+        }, 7500);
 
         return;
       }
@@ -169,10 +176,17 @@ export const addTrack = () => {
           dispatch({
             type: PlaylistActions.CLEAR_ERROR,
           });
-        }, 15000);
+        }, 7500);
 
         return;
       }
+
+      window.api.send("Rnew-track", {
+        title: "New track added!",
+        body: `${body.item.artists.map(artist => artist.name).join(", ")} - ${
+          body.item.name
+        } jump into your playlist!`,
+      });
 
       await window.api.spotify.addTrackToPlaylist(state.playlist.playlistId, [
         body.item.uri,
@@ -196,7 +210,7 @@ export const addTrack = () => {
         dispatch({
           type: PlaylistActions.CLEAR_ERROR,
         });
-      }, 15000);
+      }, 7500);
     }
   };
 };

@@ -1,5 +1,14 @@
 import { config } from "dotenv";
-import { app, BrowserWindow, globalShortcut, ipcMain } from "electron";
+import {
+  app,
+  BrowserWindow,
+  globalShortcut,
+  ipcMain,
+  Notification,
+  autoUpdater,
+  dialog,
+} from "electron";
+import electronIsDev from "electron-is-dev";
 import { createWindow, envPath } from "./utils";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -9,7 +18,6 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-require("update-electron-app")({ repo: "sekkure/IFL" });
 config({ path: envPath() });
 
 app
@@ -18,6 +26,36 @@ app
       MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       MAIN_WINDOW_WEBPACK_ENTRY
     );
+
+    if (!electronIsDev) {
+      const server = `https://hazel-355zuvseg-secree.vercel.app`;
+      const feed = `${server}/update/${process.platform}/${app.getVersion()}`;
+
+      autoUpdater.setFeedURL({ url: feed });
+      autoUpdater.checkForUpdates();
+
+      setInterval(() => {
+        autoUpdater.checkForUpdates();
+      }, 10 * 60 * 1000);
+
+      autoUpdater.on(
+        "update-downloaded",
+        async (event, releaseNotes, releaseName) => {
+          const dialogOpts = {
+            type: "info",
+            buttons: ["Restart", "Later"],
+            title: "Application Update",
+            message: process.platform === "win32" ? releaseNotes : releaseName,
+            detail:
+              "A new version has been downloaded. Restart the application to apply the updates.",
+          };
+
+          const result = await dialog.showMessageBox(win, dialogOpts);
+
+          if (result.response === 0) autoUpdater.quitAndInstall();
+        }
+      );
+    }
 
     globalShortcut.register("Alt+0", () => {
       win.webContents.send("add-track");
@@ -29,6 +67,12 @@ app
       })
       .on("Rhide-window-to-tray", () => {
         win.hide();
+      })
+      .on("Rnew-track", (event, data) => {
+        new Notification({
+          title: data.title,
+          body: data.body,
+        }).show();
       });
   })
   .on("window-all-closed", () => {

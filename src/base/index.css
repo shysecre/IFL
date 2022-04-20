@@ -1,14 +1,12 @@
 body {
-  background: url(https://images.pexels.com/photos/1254736/pexels-photo-1254736.jpeg)
+  background: url(https://images.pexels.com/photos/4100130/pexels-photo-4100130.jpeg)
     no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+
   background-size: cover;
+  font-family: "Mukta Malar", Arial;
+
   margin: 0%;
   padding: 0%;
-  min-height: 100vh;
-  font-family: "Mukta Malar", Arial;
 }
 
 ::-webkit-scrollbar {

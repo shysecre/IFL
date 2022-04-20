@@ -1,5 +1,3 @@
-import { GetState } from "client/store";
-import { loginUser } from "client/store/action-creators/currentUser";
 import { app, BrowserWindow, Menu, MenuItem, Tray } from "electron";
 import { join } from "path";
 
@@ -51,12 +49,13 @@ export const createWindow = (preloadPath: string, urlPath: string) => {
 
   const mainWindow = new BrowserWindow({
     show: false,
-    width: 800, //800
-    height: 400, //400
+    width: 800,
+    height: 400,
     icon: APP_ICON,
     frame: false,
     resizable: false,
     autoHideMenuBar: true,
+    transparent: true,
     webPreferences: {
       devTools: !app.isPackaged,
       contextIsolation: true,

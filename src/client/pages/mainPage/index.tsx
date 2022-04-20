@@ -33,7 +33,11 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
   }, []);
 
   return (
-    <>
+    <div
+      style={{
+        background: "rgba(0, 0, 0, 0.2)",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -85,10 +89,10 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
               }}
             >
               {tracks.length
-                ? `Total tracks: ${tracks.length} and last 10 added tracks:`
+                ? `Last 10 added tracks:`
                 : "Please, specify playlist."}
             </h2>
-            <div>
+            <div style={{}}>
               {tracks.length
                 ? tracks
                     .slice(-10)
@@ -98,7 +102,7 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
                         <div
                           style={{
                             verticalAlign: "top",
-                            marginLeft: "15px",
+                            paddingLeft: "15px",
                             width: "100%",
                             float: "left",
                           }}
@@ -106,7 +110,10 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
                         >
                           <div>
                             <img
-                              style={{ float: "left" }}
+                              style={{
+                                float: "left",
+                                boxShadow: "black 2px 5px 15px",
+                              }}
                               src={track.img}
                               width={52}
                               height={52}
@@ -115,13 +122,13 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
                           <div>
                             <h5
                               style={{
-                                textShadow: "black 5px 5px 10px",
+                                textShadow: "black 2px 5px 5px",
                                 color: "#fff",
                                 float: "left",
                                 marginLeft: "15px",
                               }}
                             >
-                              {track.artists} - {track.name}
+                              {++idx}. {track.artists} - {track.name}
                             </h5>
                           </div>
                         </div>
@@ -132,7 +139,7 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

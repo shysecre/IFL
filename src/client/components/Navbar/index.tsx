@@ -41,9 +41,9 @@ export const Navbar = ({}): JSX.Element => {
           />
           <defs>
             <linearGradient id="Gradient" x2="1" y2="1">
-              <stop offset="33%" stopColor="#924949" />
-              <stop offset="66%" stopColor="#e03c3c" />
-              <stop offset="99%" stopColor="#ff0909" />
+              <stop offset="10%" stopColor="#90ffa2" />
+              <stop offset="85%" stopColor="#ffffff" />
+              {/* <stop offset="99%" stopColor="#ff0909" /> */}
             </linearGradient>
           </defs>
         </svg>

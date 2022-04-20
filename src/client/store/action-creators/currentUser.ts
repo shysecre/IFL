@@ -125,7 +125,7 @@ export const loginUser = ({ code, accessToken, req }: options) => {
         dispatch({
           type: CurrentUserActions.CLEAR_ERROR,
         });
-      }, 15000);
+      }, 7500);
     }
   };
 };

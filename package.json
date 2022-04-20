@@ -1,7 +1,7 @@
 {
   "name": "ifl",
   "productName": "IFL",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "url": "https://github.com/sekkure/IFL"
   },
@@ -53,6 +53,7 @@
     "classnames": "^2.3.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
+    "electron-is-dev": "^2.0.0",
     "electron-redux": "^1.5.4",
     "electron-squirrel-startup": "^1.0.0",
     "express": "^4.17.3",
