@@ -89,8 +89,8 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
               }}
             >
               {tracks.length
-                ? `Last 10 added tracks:`
-                : "Please, specify playlist."}
+                ? `Last 10 added tracks`
+                : "Please, specify playlist"}
             </h2>
             <div style={{}}>
               {tracks.length
