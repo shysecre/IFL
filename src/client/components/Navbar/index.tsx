@@ -32,8 +32,8 @@ export const Navbar = ({}): JSX.Element => {
   };
 
   return (
-    <>
-      <div className={classNames(styles.nav, styles.navCentered, styles.drag)}>
+    <div className={classNames(styles.main)}>
+      <div className={classNames(styles.nav, styles.drag)}>
         <svg
           onClick={onHide}
           className={classNames(styles.dash, styles.noDrag)}
@@ -86,6 +86,6 @@ export const Navbar = ({}): JSX.Element => {
           </svg>
         ) : null}
       </div>
-    </>
+    </div>
   );
 };

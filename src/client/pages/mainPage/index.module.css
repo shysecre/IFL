@@ -1,5 +1,53 @@
-.arrow {
-  padding-top: 15px;
-  width: 32px;
-  height: 32px;
+.container {
+  background-color: rgba(0, 0, 0, 0.148);
+  border-radius: 25px;
+  width: 200px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.fetchButton {
+  max-height: 30px;
+  position: absolute;
+  margin: 0px 0px 15px 0px;
+  bottom: 0;
+}
+
+.input {
+  max-width: 80%;
+  position: absolute;
+  margin: 10px 0px 0px 0px;
+  top: 0;
+}
+
+.text {
+  color: white;
+  margin: 5px 0px 10px 15px;
+  text-shadow: black 5px 5px 10px;
+}
+
+.errorText {
+  color: white;
+  margin: 5px 0px 10px 15px;
+  text-shadow: black 5px 5px 10px;
+  font-size: 16px;
+}
+
+.containerCenter {
+  margin: 150px 0 0 0;
+  transform: translate(-50%, -50%);
+  left: 50%;
+}
+
+.containerRight {
+  margin: 150px 0 0 0;
+  transform: translate(-10%, -50%);
+  right: 0;
+}
+
+.containerHide {
+  display: none;
 }

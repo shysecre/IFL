@@ -51,9 +51,3 @@
     #6fd73f 64.72%
   );
 }
-
-@media (min-width: 768px) {
-  .button {
-    padding: 0 2.6rem;
-  }
-}

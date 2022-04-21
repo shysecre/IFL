@@ -7,13 +7,14 @@ export const Input = ({
   placeholder = "",
   value = "",
   onChange,
+  ...props
 }: InputProps): JSX.Element => {
   return (
     <input
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className={classNames(styles.input)}
+      className={classNames(props.className, styles.input)}
     />
   );
 };

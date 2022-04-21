@@ -36,7 +36,6 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <HashRouter>
-      <Navbar />
       {accessToken ? (
         <Routes>
           <Route path="/" caseSensitive={true} element={<MainPage />} />
@@ -55,6 +54,7 @@ const App: React.FC = (): JSX.Element => {
 const WrappedApp = () => {
   return (
     <Provider store={store}>
+      <Navbar />
       <App />
     </Provider>
   );

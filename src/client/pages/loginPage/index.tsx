@@ -32,9 +32,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
     if (expiresIn && Date.now() > +expiresIn) {
       window.api.spotify.setRefreshToken(refreshToken);
       window.api.spotify.refreshToken().then(res => {
-        loginUser({
-          accessToken: res.body.access_token,
-        });
+        loginUser({ accessToken: res.body.access_token });
       });
     }
   }, [location]);
@@ -46,8 +44,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
           <img
             className={classNames(styles.img)}
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png?20191006032433"
-            width={52}
-            height={52}
+            title="IFL"
           />
         </div>
         <div>

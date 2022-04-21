@@ -3,11 +3,17 @@ import { ButtonProps } from "./index.props";
 import cn from "classnames";
 import styles from "./index.module.css";
 
-export default ({ children, color = "blue", text, ...props }: ButtonProps) => {
+export default ({
+  children,
+  color = "blue",
+  text,
+  className,
+  ...props
+}: ButtonProps) => {
   return (
     <button
       {...props}
-      className={cn(styles.button, {
+      className={cn(className, styles.button, {
         [styles.buttonBlue]: color == "blue",
         [styles.buttonGreen]: color == "green",
         [styles.buttonRed]: color == "red",

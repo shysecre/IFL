@@ -1,7 +1,4 @@
 .input {
-  margin-top: 10px;
-  margin-left: 15px;
-
   height: 32px;
 
   background: transparent;
@@ -10,6 +7,8 @@
 
   font-size: 16px;
   color: white;
+
+  text-align: center;
 }
 
 .input:focus {
