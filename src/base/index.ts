@@ -37,10 +37,14 @@ app
 
       setInterval(() => {
         autoUpdater.checkForUpdates();
-      }, 10 * 60 * 1000);
+      }, 5 * 60 * 1000);
 
       autoUpdater.on("update-downloaded", () => {
         win.webContents.send("Rupdate-available", true);
+      });
+
+      autoUpdater.on("error", () => {
+        console.log("ERROR!");
       });
     }
 
