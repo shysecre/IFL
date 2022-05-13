@@ -29,11 +29,12 @@
 }
 
 .dash {
-  height: 20px;
+  height: 25px;
+  margin-right: 3px;
 }
 
 .mark {
-  height: 25px;
+  height: 28px;
   color: linear-gradient(
     92.88deg,
     #5d4992 9.16%,
@@ -49,4 +50,10 @@
 .update {
   height: 20px;
   margin-left: 5px;
+}
+
+.selectPlaylist {
+  height: 20px;
+  margin-left: 5px;
+  margin-top: 5px;
 }

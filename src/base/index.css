@@ -1,14 +1,27 @@
-body {
-  background: url(https://images.pexels.com/photos/4100130/pexels-photo-4100130.jpeg)
-    no-repeat center center fixed;
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
-  background-size: cover;
-  font-family: "Mukta Malar", Arial;
+body {
+  background: url(https://images.pexels.com/photos/176851/pexels-photo-176851.jpeg)
+    no-repeat center center fixed;
 
   margin: 0%;
   padding: 0%;
+
+  height: 550px;
+}
+
+#root {
+  height: 100%;
 }
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+:root {
+  --font-famility: 'Comfortaa';
+  --transparent-black: hsla(0, 0%, 0%, 0.2);
+  --transparent-white: rgba(255, 255, 255, 0.2);
+  --light-purple: rgb(182, 156, 255);
+  --white: #fff;
 }

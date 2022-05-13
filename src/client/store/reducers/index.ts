@@ -1,12 +1,10 @@
-import { combineReducers } from "redux";
-import { currentAppStateReducer } from "./appState";
-import { currentUserReducer } from "./currentUserReducer";
-import { playlistReducer } from "./playlistReducer";
+import { combineReducers } from 'redux'
+import { appReducer } from './app'
+import { userReducer } from './user'
 
 export const rootReducer = combineReducers({
-  playlist: playlistReducer,
-  currentUser: currentUserReducer,
-  appState: currentAppStateReducer,
-});
+  user: userReducer,
+  app: appReducer,
+})
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof rootReducer>

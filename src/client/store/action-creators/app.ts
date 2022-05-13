@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { AppStateAction, AppStateActions } from "shared/types/appState";
+import { AppStateAction, AppStateActions } from "shared/types/app";
 
 export const setUpdateLive = () => {
   return async (dispatch: Dispatch<AppStateAction>) => {

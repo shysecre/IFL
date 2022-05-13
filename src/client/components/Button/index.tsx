@@ -1,25 +1,18 @@
-import React from "react";
-import { ButtonProps } from "./index.props";
-import cn from "classnames";
-import styles from "./index.module.css";
+import classNames from 'classnames'
+import React from 'react'
+import { ButtonProps } from './index.props'
+import styles from './index.module.css'
 
-export default ({
-  children,
-  color = "blue",
-  text,
+export const Button = ({
+  Icon,
   className,
+  children,
   ...props
 }: ButtonProps) => {
   return (
-    <button
-      {...props}
-      className={cn(className, styles.button, {
-        [styles.buttonBlue]: color == "blue",
-        [styles.buttonGreen]: color == "green",
-        [styles.buttonRed]: color == "red",
-      })}
-    >
-      {text}
+    <button className={classNames(styles.button, className)} {...props}>
+      {Icon && <Icon className={classNames(styles.icon)} />}
+      {children}
     </button>
-  );
-};
+  )
+}

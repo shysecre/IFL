@@ -1,4 +1,4 @@
-import { config } from "dotenv";
+import { config } from 'dotenv'
 import {
   app,
   BrowserWindow,
@@ -6,77 +6,83 @@ import {
   ipcMain,
   Notification,
   autoUpdater,
-  dialog,
-} from "electron";
-import electronIsDev from "electron-is-dev";
-import { createWindow, envPath } from "./utils";
+} from 'electron'
+import electronIsDev from 'electron-is-dev'
+import { createWindow, envPath } from './utils'
 
-declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
+declare const MAIN_WINDOW_WEBPACK_ENTRY: string
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
-if (require("electron-squirrel-startup")) {
-  app.quit();
+if (require('electron-squirrel-startup')) {
+  app.quit()
 }
 
-config({ path: envPath() });
+config({ path: envPath() })
 
 app
-  .on("ready", () => {
+  .on('ready', () => {
     const win = createWindow(
       MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       MAIN_WINDOW_WEBPACK_ENTRY
-    );
+    )
 
     if (!electronIsDev) {
       const feed = `${process.env.SERVER_URL}/update/${
         process.platform
-      }/${app.getVersion()}`;
+      }/${app.getVersion()}`
 
-      autoUpdater.setFeedURL({ url: feed });
-      autoUpdater.checkForUpdates();
+      autoUpdater.setFeedURL({ url: feed })
+      autoUpdater.checkForUpdates()
 
       setInterval(() => {
-        autoUpdater.checkForUpdates();
-      }, 5 * 60 * 1000);
+        autoUpdater.checkForUpdates()
+      }, 5 * 60 * 1000)
 
-      autoUpdater.on("update-downloaded", () => {
-        win.webContents.send("Rupdate-available", true);
-      });
+      autoUpdater.on('update-downloaded', () => {
+        win.webContents.send('Rupdate-available', true)
+      })
 
-      autoUpdater.on("error", () => {
-        console.log("ERROR!");
-      });
+      autoUpdater.on('error', () => {
+        console.log('ERROR!')
+      })
     }
 
-    globalShortcut.register("Alt+0", () => {
-      win.webContents.send("add-track");
-    });
-
     ipcMain
-      .on("Rhide-window", () => {
-        win.minimize();
+      .on('hide-window', () => {
+        win.minimize()
       })
-      .on("Rhide-window-to-tray", () => {
-        win.hide();
+      .on('hide-window-to-tray', () => {
+        win.hide()
       })
-      .on("Rnew-track", (event, data) => {
+      .on('new-track', (event, data) => {
         new Notification({
           title: data.title,
           body: data.body,
-        }).show();
+        }).show()
       })
-      .on("Rneed-to-update", () => {
-        app.exit(0);
-      });
-  })
-  .on("window-all-closed", () => {
-    if (process.platform === "darwin") return;
+      .on('need-to-update', () => {
+        app.exit(0)
+      })
+      .on('set-bind', (event, data) => {
+        globalShortcut.register(data.bind, () => {
+          const playlistId = data.playlistId
 
-    app.quit();
+          win.webContents.send(`add-track-${playlistId}`, playlistId)
+        })
+      })
+      .on('delete-bind', (event, data) => {
+        if (globalShortcut.isRegistered(data.bind))
+          globalShortcut.unregister(data.bind)
+      })
   })
-  .on("activate", () => {
-    if (BrowserWindow.getAllWindows().length) return;
+  .on('window-all-closed', () => {
+    if (process.platform === 'darwin') return
 
-    createWindow(MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY, MAIN_WINDOW_WEBPACK_ENTRY);
+    app.quit()
   })
-  .setName("IFL");
+  .on('activate', () => {
+    if (BrowserWindow.getAllWindows().length) return
+
+    createWindow(MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY, MAIN_WINDOW_WEBPACK_ENTRY)
+  })
+  .setName('IFL')

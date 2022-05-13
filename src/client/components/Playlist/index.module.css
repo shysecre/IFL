@@ -1,0 +1,80 @@
+.container {
+  width: 315px;
+  height: 500px;
+  margin-top: 30px;
+}
+
+.text {
+  color: white;
+  margin: 5px 0px 10px 15px;
+  text-shadow: black 5px 5px 10px;
+}
+
+.errorText {
+  position: relative;
+  color: white;
+  margin: 5px 0px 10px 15px;
+  text-shadow: black 5px 5px 10px;
+  font-size: 16px;
+  font-weight: 300;
+  text-align: center;
+}
+
+/* NEEEEEEEEEEEEEEEEEEEEEEEW STYLINGSSSSS */
+
+.playlistCard {
+  position: relative;
+  border-radius: 25px;
+  background-color: rgba(0, 0, 0, 0.154);
+  background: rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(5px);
+  max-width: 100%;
+}
+
+.playlistCardHeader {
+  position: relative;
+  border-top-left-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 120px;
+}
+
+.playlistCardHeaderImage {
+  position: absolute;
+  max-width: 100%;
+  height: 115px;
+  width: 400px;
+  z-index: -1;
+  object-fit: cover;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  filter: blur(2px);
+}
+
+.playlistCardBody {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 25px 0px 0px 35px;
+  margin: 0;
+}
+
+.removeButton {
+  fill: black;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+}
+
+.hideImage {
+  display: none;
+}
+
+.removeBorderRadius {
+  border-radius: 0;
+}

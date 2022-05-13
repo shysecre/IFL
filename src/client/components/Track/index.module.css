@@ -1,8 +1,14 @@
-.text {
-  color: white;
-  margin: 18px 0px 10px 15px;
-  text-shadow: black 5px 5px 10px;
+/*
+
+.trackBox {
+  vertical-align: top;
+  width: 98%;
   float: left;
+} */
+
+.trackBox {
+  display: flex;
+  align-items: center;
 }
 
 .img {
@@ -10,11 +16,20 @@
   box-shadow: black 2px 5px 15px;
   width: 52px;
   height: 52px;
+  margin: 5px 0px 5px 0px;
 }
 
-.trackBox {
-  vertical-align: top;
-  margin: 0px 0px 10px 15px;
-  width: 98%;
-  float: left;
+.textArtist,
+.textName {
+  color: white;
+  text-shadow: black 5px 5px 10px;
+  font-family: var(--font-famility);
+  padding-left: 24px;
+  font-size: 20px;
+}
+
+.textName {
+  padding-top: 4px;
+  font-weight: 300;
+  font-size: 14px;
 }

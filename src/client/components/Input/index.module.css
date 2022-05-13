@@ -3,12 +3,15 @@
 
   background: transparent;
   border: none;
-  border-bottom: 2px solid #90ffa2;
+  border-bottom: 1px solid #fff500;
 
   font-size: 16px;
   color: white;
 
   text-align: center;
+  font-family: var(--font-famility);
+
+  width: 150px;
 }
 
 .input:focus {

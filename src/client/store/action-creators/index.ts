@@ -1,9 +1,7 @@
-import * as PlaylistActionCreators from "./playlist";
-import * as CurrentUserActionCreators from "./currentUser";
-import * as AppStateActionCreators from "./appState";
+import * as CurrentUserActionCreators from "./user";
+import * as AppStateActionCreators from "./app";
 
 export default {
-  ...PlaylistActionCreators,
   ...CurrentUserActionCreators,
   ...AppStateActionCreators,
 };

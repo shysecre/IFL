@@ -1,8 +1,15 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  place-content: center;
+}
+
 .container {
   background-color: rgba(0, 0, 0, 0.148);
   border-radius: 25px;
   width: 200px;
-  height: 100px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,23 +17,36 @@
 }
 
 .fetchButton {
-  max-height: 30px;
+  max-height: 25px;
   position: absolute;
-  margin: 0px 0px 15px 0px;
+  margin: 0px 0px 5px 0px;
   bottom: 0;
 }
 
-.input {
-  max-width: 80%;
+.inputText {
+  color: white;
   position: absolute;
-  margin: 10px 0px 0px 0px;
+  margin: 15px 0px 0px 0px;
   top: 0;
+}
+
+.input {
+  width: 150px;
+  height: 25px;
+  position: absolute;
+  margin: 0px 0px 60px 0px;
+  bottom: 0;
+  appearance: none;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  outline: none;
 }
 
 .text {
   color: white;
   margin: 5px 0px 10px 15px;
   text-shadow: black 5px 5px 10px;
+  text-align: center;
 }
 
 .errorText {
@@ -36,18 +56,41 @@
   font-size: 16px;
 }
 
-.containerCenter {
-  margin: 150px 0 0 0;
-  transform: translate(-50%, -50%);
-  left: 50%;
+.playlistContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.containerRight {
-  margin: 150px 0 0 0;
-  transform: translate(-10%, -50%);
-  right: 0;
+.noPlaylists {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 25px;
+  height: 450px;
 }
 
-.containerHide {
-  display: none;
+.playlistCard {
+  display: flex;
+  color: white;
+  font-family: var(--font-famility);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 250px;
+}
+
+.playlistSelectButton {
+  border-radius: 100%;
+}
+
+.playlists {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  place-content: center;
+  height: 200px;
+  width: 600px;
+  gap: 50px;
 }

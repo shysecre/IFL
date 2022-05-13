@@ -2,20 +2,20 @@ import {
   AppState,
   AppStateAction,
   AppStateActions,
-} from "shared/types/appState";
+} from 'shared/types/app'
 
-const initialState: AppState = { isUpdateLive: false };
+const initialState: AppState = { isUpdateLive: false }
 
-export const currentAppStateReducer = (
+export const appReducer = (
   state = initialState,
   action: AppStateAction
 ): AppState => {
   switch (action.type) {
     case AppStateActions.SET_UPDATE_LIVE:
-      return { ...state, isUpdateLive: true };
+      return { ...state, isUpdateLive: true }
     case AppStateActions.SET_UPDATE_OFFLINE:
-      return { ...state, isUpdateLive: false };
+      return { ...state, isUpdateLive: false }
     default:
-      return { ...state };
+      return { ...state }
   }
-};
+}

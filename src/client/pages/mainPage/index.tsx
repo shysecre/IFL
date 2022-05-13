@@ -1,90 +1,143 @@
-import classNames from "classnames";
-import { Input } from "client/components/Input";
-import { useActions } from "client/hooks/useActions";
-import { useTypedSelector } from "client/hooks/useTypedSelector";
-import React, { useEffect, useState } from "react";
-import MainPageProps from "./index.props";
-import styles from "./index.module.css";
-import Button from "client/components/Button";
-import { Track } from "client/components/Track";
-import { Text } from "client/components/Text";
+import classNames from 'classnames'
+import { useActions } from 'client/hooks/useActions'
+import { useTypedSelector } from 'client/hooks/useTypedSelector'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import MainPageProps from './index.props'
+import styles from './index.module.css'
+import { Button } from 'client/components/Button'
+import { Text } from 'client/components/Text'
+import { Playlist } from 'shared/types/user'
+import { PlaylistComponent } from 'client/components/Playlist'
+import { Modal } from 'client/components/Modal'
 
 const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
-  const { playlistId, tracks, isCaching, error } = useTypedSelector(
-    state => state.playlist
-  );
-  const { fetchTracks, editPlaylistId } = useActions();
-  const [value, setValue] = useState("");
+  const { playlists, selectedPlaylists, isAddingNewPlaylist } =
+    useTypedSelector(state => state.user)
+  const { setSelectedPlaylist, fetchPlaylists, setBind, setAddingNewPlaylist } =
+    useActions()
 
-  const onEditPlaylistId = () => {
-    if (!value.length) return;
+  const [filteredPlaylists, setFilteredPlaylists] = useState([])
+  const [displayModal, setDisplayModal] = useState(false)
+  const onPlaylistSelect = (id: string, name: string) => {
+    if (
+      id === 'Select playlist' ||
+      selectedPlaylists.find(({ playlistId }) => playlistId === id)
+    )
+      return
 
-    editPlaylistId(value.split("/")[4].split("?")[0]);
-    setValue("");
-  };
+    onEditPlaylistId({
+      id,
+      name,
+    })
 
-  const onNewPlaylistId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-
-    setValue(event.target.value);
-  };
+    if (isAddingNewPlaylist) setAddingNewPlaylist()
+  }
+  const onRefreshPlaylist = () => fetchPlaylists()
+  const onEditPlaylistId = (playlist: Playlist) => {
+    setSelectedPlaylist(playlist)
+  }
+  const onModalOpen = () => setDisplayModal(true)
 
   useEffect(() => {
-    if (!tracks.length && playlistId) {
-      fetchTracks();
+    fetchPlaylists()
+
+    const playlistLine = localStorage.getItem('playlists')
+
+    if (playlistLine && playlistLine.replace(/ /g, '').length) {
+      const macthed = playlistLine.match(/(?<=\")(.*?)(?=\")/g)
+
+      for (const _playlist of macthed) {
+        const [id, name, bind] = _playlist.split(':')
+
+        if (!id || !name) continue
+
+        setSelectedPlaylist({
+          id,
+          name,
+        })
+
+        if (bind) setBind(id, bind)
+      }
     }
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    setDisplayModal(true)
+  }, [isAddingNewPlaylist])
+
+  useEffect(() => {
+    const filteredPlaylists = playlists.reduce((acc, curr) => {
+      if (selectedPlaylists.find(el => el.playlistName === curr.name))
+        return acc
+
+      acc.push(curr)
+
+      return acc
+    }, [])
+
+    if (filteredPlaylists.length) setFilteredPlaylists(filteredPlaylists)
+  }, [selectedPlaylists.length, playlists.length])
+
+  console.log(selectedPlaylists.length)
 
   return (
-    <div className={classNames(styles.main)}>
-      <div
-        className={classNames(styles.container, {
-          [styles.containerHide]: isCaching,
-          [styles.containerCenter]: !tracks.length === true && !isCaching,
-          [styles.containerRight]: !tracks.length === false && !isCaching,
-        })}
-      >
-        <Input
-          placeholder={"Paste playlist link"}
-          onChange={onNewPlaylistId}
-          value={value}
-          className={classNames(styles.input)}
-        />
-        <Button
-          text="Get playlist"
-          onClick={onEditPlaylistId}
-          color="blue"
-          className={classNames(styles.fetchButton)}
-        />
-      </div>
-      {error ? (
-        <Text type="h2" className={classNames(styles.errorText)}>
-          Error: {error}
-        </Text>
-      ) : null}
-      {isCaching ? (
-        <Text type="h1" className={classNames(styles.text)}>
-          Wait for cache...
-        </Text>
+    <div className={classNames(styles.mainPage)}>
+      {selectedPlaylists.length && !isAddingNewPlaylist ? (
+        <div className={styles.main}>
+          {selectedPlaylists.map((playlist, idx) => {
+            return <PlaylistComponent playlist={playlist} key={idx} />
+          })}
+        </div>
       ) : (
-        <div>
-          <Text type="h2" className={classNames(styles.text)}>
-            {tracks.length ? "Last 10 added tracks" : null}
-          </Text>
-          <div>
-            {tracks.length
-              ? tracks
-                  .slice(-10)
-                  .reverse()
-                  .map((track, idx) => (
-                    <Track key={idx} track={track} idx={idx} />
-                  ))
-              : null}
-          </div>
+        <div className={classNames(styles.noPlaylists)}>
+          {displayModal || isAddingNewPlaylist ? (
+            <Modal
+              setDisplayModal={setDisplayModal}
+              displayModal={displayModal}
+              displayRefreshButton={true}
+              isAddingNewPlaylist={isAddingNewPlaylist}
+              refreshPlaylists={onRefreshPlaylist}
+            >
+              <Text type="h1" className={classNames(styles.text)}>
+                Your playlists
+              </Text>
+              {filteredPlaylists.length ? (
+                <div className={classNames(styles.playlists)}>
+                  {filteredPlaylists.map((playlist, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        className={classNames(styles.playlistCard)}
+                      >
+                        <Button
+                          className={classNames(styles.playlistSelectButton)}
+                          onClick={() =>
+                            onPlaylistSelect(playlist.id, playlist.name)
+                          }
+                        >
+                          {playlist.name}
+                        </Button>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <Text type="h1" className={classNames(styles.text)}>
+                  Please create at least one playlist
+                </Text>
+              )}
+            </Modal>
+          ) : (
+            <>
+              <Button onClick={onModalOpen}>
+                Select at least one playlist
+              </Button>
+            </>
+          )}
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage

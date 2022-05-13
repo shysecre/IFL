@@ -1,54 +1,60 @@
-const { contextBridge, ipcRenderer, shell } = require("electron");
-const { App } = require("utils/server");
-const { SpotifyWeb } = require("utils/spotify");
+const { contextBridge, ipcRenderer, shell } = require('electron')
+const { App } = require('utils/server')
+const { SpotifyWeb } = require('utils/spotify')
 
-const server = new App(__dirname);
+const server = new App(__dirname)
 
-contextBridge.exposeInMainWorld("api", {
+contextBridge.exposeInMainWorld('api', {
   send: (channel, data) => {
-    ipcRenderer.send(channel, data);
+    ipcRenderer.send(channel, data)
   },
   receive: (channel, func) => {
-    ipcRenderer.on(channel, (event, ...args) => func(...args));
+    ipcRenderer.on(channel, (event, ...args) => func(...args))
+  },
+  remove: channel => {
+    ipcRenderer.removeAllListeners(channel)
   },
   dirname: __dirname,
   utils: {
     openInBrowser(url) {
-      return shell.openExternal(url);
+      return shell.openExternal(url)
     },
   },
   server: {
     createServer() {
-      return server.createServer();
+      return server.createServer()
     },
     stopServer() {
-      return server.stopServer();
+      return server.stopServer()
     },
   },
   spotify: {
+    getUserPlaylists() {
+      return SpotifyWeb.getUserPlaylists()
+    },
     createAuthUrl(scopes, state) {
-      return SpotifyWeb.createAuthorizeURL(scopes, state);
+      return SpotifyWeb.createAuthorizeURL(scopes, state)
     },
     authCodeGrant(code) {
-      return SpotifyWeb.authorizationCodeGrant(code);
+      return SpotifyWeb.authorizationCodeGrant(code)
     },
     setAccessToken(token) {
-      return SpotifyWeb.setAccessToken(token);
+      return SpotifyWeb.setAccessToken(token)
     },
     getPlayingTrack() {
-      return SpotifyWeb.getMyCurrentPlayingTrack();
+      return SpotifyWeb.getMyCurrentPlayingTrack()
     },
     getPlaylistTracks(playlistId, options) {
-      return SpotifyWeb.getPlaylistTracks(playlistId, options);
+      return SpotifyWeb.getPlaylistTracks(playlistId, options)
     },
     setRefreshToken(refreshToken) {
-      return SpotifyWeb.setRefreshToken(refreshToken);
+      return SpotifyWeb.setRefreshToken(refreshToken)
     },
     refreshToken() {
-      return SpotifyWeb.refreshAccessToken();
+      return SpotifyWeb.refreshAccessToken()
     },
     addTrackToPlaylist(playlistId, tracks) {
-      return SpotifyWeb.addTracksToPlaylist(playlistId, tracks);
+      return SpotifyWeb.addTracksToPlaylist(playlistId, tracks)
     },
   },
-});
+})
