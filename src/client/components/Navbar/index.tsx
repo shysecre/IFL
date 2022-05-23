@@ -9,8 +9,13 @@ export const Navbar = ({}): JSX.Element => {
     user: { accessToken },
     app: { isUpdateLive },
   } = useTypedSelector(state => state)
-  const { setUpdateLive, setUpdateOffline, logoutUser, setAddingNewPlaylist } =
-    useActions()
+  const {
+    setUpdateLive,
+    setUpdateOffline,
+    logoutUser,
+    setAddingNewPlaylist,
+    fetchPlaylists,
+  } = useActions()
   const { selectedPlaylists } = useTypedSelector(state => state.user)
 
   useEffect(() => {
@@ -34,6 +39,7 @@ export const Navbar = ({}): JSX.Element => {
   }
   const onPlaylistAdd = () => {
     setAddingNewPlaylist()
+    fetchPlaylists()
   }
 
   return (

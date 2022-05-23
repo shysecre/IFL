@@ -32,15 +32,18 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
 
     if (isAddingNewPlaylist) setAddingNewPlaylist()
   }
+
   const onRefreshPlaylist = () => fetchPlaylists()
   const onEditPlaylistId = (playlist: Playlist) => {
     setSelectedPlaylist(playlist)
   }
-  const onModalOpen = () => setDisplayModal(true)
-
-  useEffect(() => {
+  const onModalOpen = () => {
     fetchPlaylists()
 
+    setDisplayModal(true)
+  }
+
+  useEffect(() => {
     const playlistLine = localStorage.getItem('playlists')
 
     if (playlistLine && playlistLine.replace(/ /g, '').length) {
@@ -77,8 +80,6 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
 
     if (filteredPlaylists.length) setFilteredPlaylists(filteredPlaylists)
   }, [selectedPlaylists.length, playlists.length])
-
-  console.log(selectedPlaylists.length)
 
   return (
     <div className={classNames(styles.mainPage)}>

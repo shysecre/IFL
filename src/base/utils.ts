@@ -58,7 +58,7 @@ export const createWindow = (preloadPath: string, urlPath: string) => {
         autoHideMenuBar: true,
         transparent: true,
         webPreferences: {
-          devTools: false,
+          devTools: true,
           contextIsolation: true,
           nodeIntegration: false,
           preload: preloadPath,
