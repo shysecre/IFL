@@ -7,6 +7,7 @@ const initialState: userState = {
   playlists: [],
   selectedPlaylists: [],
   isAddingNewPlaylist: false,
+  error: null,
 }
 
 export const userReducer = (

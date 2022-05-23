@@ -373,15 +373,25 @@ export const fetchPlaylistTracks = (playlistId: string) => {
 }
 
 export const fetchPlaylists = () => {
-  return async (dispatch: Dispatch<userAction>) => {
+  return async (dispatch: Dispatch<userAction>, getState: GetState) => {
     try {
-      const request = await window.api.spotify.getUserPlaylists()
+      const state = getState()
+      const request = await axios.get(
+        `https://api.spotify.com/v1/me/playlists`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${state.user.accessToken}`,
+          },
+        }
+      )
 
-      console.log(request)
-
-      const formatedPlaylists: Playlist[] = request.body.items.map(item => {
-        return { id: item.id, name: item.name }
-      })
+      const formatedPlaylists: Playlist[] = request.data.body.items.map(
+        //@ts-ignore
+        item => {
+          return { id: item.id, name: item.name }
+        }
+      )
 
       dispatch({
         type: userActions.FETCH_PLAYLISTS,
@@ -399,8 +409,7 @@ export const logoutUser = () => {
       type: userActions.LOGOUT_USER,
     })
 
-    const items = ['expiresIn', 'refreshToken', 'accessToken', 'playlists']
-    items.map(item => localStorage.removeItem(item))
+    localStorage.clear()
 
     dispatch({
       type: userActions.SET_IS_ADDING_NEW_PLAYLIST,

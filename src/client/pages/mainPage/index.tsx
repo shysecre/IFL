@@ -18,6 +18,7 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
 
   const [filteredPlaylists, setFilteredPlaylists] = useState([])
   const [displayModal, setDisplayModal] = useState(false)
+
   const onPlaylistSelect = (id: string, name: string) => {
     if (
       id === 'Select playlist' ||
@@ -65,7 +66,10 @@ const MainPage: React.FC<MainPageProps> = ({}: MainPageProps) => {
   }, [])
 
   useEffect(() => {
+    if (!isAddingNewPlaylist) return
+
     setDisplayModal(true)
+    fetchPlaylists()
   }, [isAddingNewPlaylist])
 
   useEffect(() => {
