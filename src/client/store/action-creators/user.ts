@@ -386,7 +386,7 @@ export const fetchPlaylists = () => {
         }
       )
 
-      const formatedPlaylists: Playlist[] = request.data.body.items.map(
+      const formatedPlaylists: Playlist[] = request.data.items.map(
         //@ts-ignore
         item => {
           return { id: item.id, name: item.name }
