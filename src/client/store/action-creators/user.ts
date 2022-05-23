@@ -375,12 +375,11 @@ export const fetchPlaylistTracks = (playlistId: string) => {
 export const fetchPlaylists = () => {
   return async (dispatch: Dispatch<userAction>) => {
     try {
-      const { body } = await window.api.spotify.getUserPlaylists()
+      const request = await window.api.spotify.getUserPlaylists()
 
-      console.log(body.items.length)
-      console.log(body.items)
+      console.log(request)
 
-      const formatedPlaylists: Playlist[] = body.items.map(item => {
+      const formatedPlaylists: Playlist[] = request.body.items.map(item => {
         return { id: item.id, name: item.name }
       })
 
@@ -388,7 +387,9 @@ export const fetchPlaylists = () => {
         type: userActions.FETCH_PLAYLISTS,
         payload: formatedPlaylists,
       })
-    } catch (err) {}
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 
