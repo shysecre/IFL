@@ -377,6 +377,9 @@ export const fetchPlaylists = () => {
     try {
       const { body } = await window.api.spotify.getUserPlaylists()
 
+      console.log(body.items.length)
+      console.log(body.items)
+
       const formatedPlaylists: Playlist[] = body.items.map(item => {
         return { id: item.id, name: item.name }
       })
