@@ -1,18 +1,13 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "module": "commonjs",
-    "skipLibCheck": true,
-    "jsx": "react",
-    "esModuleInterop": true,
-    "noImplicitAny": true,
-    "sourceMap": true,
-    "baseUrl": "src",
-    "outDir": "dist",
-    "rootDir": "src",
-    "target": "ESNext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/app/*": ["./app/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/resources/*": ["./resources/*"]
+    }
   },
-  "include": ["src"]
+  "files": [],
+  "references": [{ "path": "./tsconfig.web.json" }, { "path": "./tsconfig.node.json" }]
 }

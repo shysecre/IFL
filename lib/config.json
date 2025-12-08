@@ -1,0 +1,8 @@
+{
+  "CLIENT_ID": "703f08450d004673865f0494826b9bb0",
+  "REDIRECT_URL": "ifl://callback",
+  "SPOTIFY_AUTH_URL": "https://accounts.spotify.com/authorize",
+  "SPOTIFY_TOKEN_URL": "https://accounts.spotify.com/api",
+  "SPOTIFY_API_URL": "https://api.spotify.com/v1",
+  "scope": "user-read-currently-playing playlist-read-private playlist-modify-private playlist-modify-public user-library-read user-library-modify"
+}
