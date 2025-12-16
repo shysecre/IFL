@@ -6,6 +6,7 @@ export const registerAppHandlers = (app: App, globalShortcut: GlobalShortcut, wi
   // App operations
   handle('version', () => app.getVersion())
 
+  // TODO: Rewrite this stupid logic
   handle('registerBind', (bind, playlistId) => {
     console.warn(`Registering bind ${bind} for ${playlistId} playlist`)
 
